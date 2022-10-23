@@ -76,7 +76,7 @@ Object.entries(obj); // (3) [Array(2), Array(2), Array(2)] > 0: (2) ['color', '
 
 
 //---------------------------------------//
-// --------Section 3: Method Review ------- //
+// --------Section 3: Methods Review ------- //
 //--------------------------------------//
 // ** WHEN WE ADD A FUNCTION TO A PROPERTY WE CALL IT A METHOD** 
 
@@ -322,4 +322,205 @@ tri2.getHypotenuse(); // 15
 // --Section 7: Classes Intro-- //
 //--------------------------------------//
 
+// Classes are a new way of doing the above in section 6: Classes are a "blueprint" of functionality:
+// we define a class which will act as a pattern or template for a particular type of object we want to create 
 
+//below is the pattern we want all new triangles to follow
+class NewTriangle {
+greet(){
+    console.log('Hello, I am a Triangle!');  // firstTri.greet() >> Hello, I am a Triangle! in console 
+}
+display(){
+    console.log(`Triangle with the sides of ${this.a} and ${this.b}`); // Triangle with the sides of undefined and undefined if a and b arent defined 
+}
+}
+
+
+//these are the instances when making new triangles based on the above pattern..
+const firstTri = new NewTriangle();
+firstTri.a = 3; // there is a better way to defined the triangle sides than doing it this way, explained in next lesson 
+firstTri.b = 4;
+const secondTri = new NewTriangle();
+secondTri.a = 9;
+secondTri.b = 12; 
+
+
+// when we define a class: use capital letter to show its a class and not an object.. inside the class we can define methods.. these methods arent  added to the >
+// instances but they are added to the prototype NewTriangle.prototype 
+
+
+
+//---------------------------------------//
+// --Section 8: Adding Constructors-- //
+//--------------------------------------//
+
+//example 1:
+// class NewerTriangle {
+//     constructor(a,b,c){
+//         if(!Number.isFinite(a) || a <= 0){
+//             console.log('INVALID SIDE');
+//             throw new Error("SIDES MUST BE POSITIVE NUMBERS!"); // you dont want to use 'RETURN' in a constructor as the new object will still get created but the values wont be inputed
+//         }
+//         this.a = a;
+//         this.b = b;
+//         this.c = c;
+//     }
+//     greet(){
+//         console.log('Hello, I am a Triangle!');  // firstTri.greet() >> Hello, I am a Triangle! in console 
+//     }
+//     display(){
+//         console.log(`Triangle with the sides of ${this.a}, ${this.b} and ${this.c}`); // Triangle with the sides of undefined and undefined if a and b arent defined 
+//     }
+//     }
+
+//************* */
+//example 1.2: getting ride of the console.logs and adding in a throw new error for each side of triangle:
+// class NewerTriangle {
+//     constructor(a,b,c){
+//         if(!Number.isFinite(a) || a <= 0){
+//             throw new Error("SIDES MUST BE POSITIVE NUMBERS!"); // you dont want to use 'RETURN' in a constructor as the new object will still get created but the values wont be inputed
+//         }
+//         if(!Number.isFinite(b) || b <= 0){
+//             throw new Error("SIDES MUST BE POSITIVE NUMBERS!"); 
+//         }
+//         if(!Number.isFinite(c) || c <= 0){
+//             throw new Error("SIDES MUST BE POSITIVE NUMBERS!"); 
+//         }
+//         this.a = a;
+//         this.b = b;
+//         this.c = c;
+//     }
+//     greet(){
+//         console.log('Hello, I am a Triangle!');  // firstTri.greet() >> Hello, I am a Triangle! in console 
+//     }
+//     display(){
+//         console.log(`Triangle with the sides of ${this.a}, ${this.b} and ${this.c}`); // Triangle with the sides of undefined and undefined if a and b arent defined 
+//     }
+//     }
+
+
+//*********** */
+//example 1.3:
+
+class NewerTriangle {
+    constructor(a,b,c){
+        for(let triside of [a,b,c]){
+            if(!Number.isFinite(triside) || triside <= 0){
+                throw new Error("SIDES MUST BE POSITIVE NUMBERS!");
+            }
+        }
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    greet(){
+        console.log('Hello, I am a Triangle!');  // firstTri.greet() >> Hello, I am a Triangle! in console 
+    }
+    display(){
+        console.log(
+            `Triangle with the sides of ${this.a}, ${this.b} and ${this.c}`
+         ); // Triangle with the sides of undefined and undefined if a and b arent defined 
+    }
+}
+
+
+//---------------------------------------//
+// --Section 9: Adding Methods-- //
+//--------------------------------------//
+
+// Functions placed in a class are "methods" (formally: "instance methods"). They have access to properties of object with 'this'. >
+// They can take arguments/return data like any other function.
+
+class NewerTriangle2 {
+    constructor(a,b,c){
+        for(let triside of [a,b,c]){
+            if(!Number.isFinite(triside) || triside <= 0){
+                throw new Error("SIDES MUST BE POSITIVE NUMBERS!");
+            }
+        }
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    greet(){
+        console.log('Hello, I am a Triangle!');  // firstTri.greet() >> Hello, I am a Triangle! in console 
+    }
+    display(){
+        console.log(
+            `Triangle with the sides of ${this.a}, ${this.b} and ${this.c}`
+         ); // Triangle with the sides of undefined and undefined if a and b arent defined 
+    }
+    getArea(){
+        const {a,b,c} = this; // destructing used here so we dont use alot of 'this' >> this is the same as doing = this.a, this.b and this.c
+        const s = (a + b + c) / 2;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+    isBig(){
+        return this.getArea() > 50; // you have to use this.getArea() NOT just getArea()... on t4.isBig() which getArea()===600 would return false without this.getArea()
+    }
+}
+
+const t2 = new NewerTriangle2(3,4,5);
+const t3 = new NewerTriangle2(5,9,10);
+const t4 = new NewerTriangle2(30,40,50);
+t2.display();
+
+// A Method can call another method: * NOTE: to call a method, you need to call it on 'this' 
+
+
+
+//---------------------------------------//
+// --Section 10: Extends - Inheritence & SUPER-- //
+//--------------------------------------//
+
+
+class SuperTriangle {   // this is acting as the parent constructor for SuperRightTriangle 
+    constructor (a,b,c){
+        console.log('INSIDE TRIANGLE CONSTRUCTOR');
+        for(let superside of [a,b,c]){
+            if(!Number.isFinite(superside) || superside <= 0){
+                throw new Error ('Sides must be positive numbers!');
+            }
+        } 
+        this.a = a;
+        this.b = b;
+        this.c = c; 
+    }
+    greet() {
+        console.log('HELLO FROM A SUPER TRIANGLE!!!');
+    }
+    display(){
+            return `Triangle with sides of ${this.a}, ${this.b}, and ${this.c}`;
+    }
+    getArea(){
+        const {a,b,c} = this; 
+        const s = (a + b + c) / 2;
+        return Math.sqrt(s * (s -a) * (s - b) * (s - c));
+    }
+    isBig(){
+        return this.getArea() > 50; 
+    }
+}
+
+class SuperRightTriangle extends SuperTriangle{  // acts as the child constructor for SuperTriangle: extends with take the properties of SuperTriangle and use them in SuperRightTriangle 
+    constructor(a,b,c){
+        if(a * a + b * b !== c * c){
+            throw new Error('Invalid C Side for right triangle!');
+        }
+        console.log('INSIDE RIGHT TRIANGLE CONSTRUCTOR');
+        super(a,b,c); // you have to call super before running the below this.hypto 
+        this.hypot = c; // its common when you extend a class to add on new properties. referencing the hypotenus here 
+        // when running a new tri on SuperRightTriangle that i call 'myTri' it would be: myTri (in console) > SuperRightTriangle {a: 3, b: 4, c: 5, hypot: 5}
+    }
+    isRightTriangle(){
+        return true; 
+    }
+    // display(){ // this will override the above SuperTriangle display method because it finds it first  (commented out to refactor with super.display)
+    //     console.log(
+    //         `Right Triangle with sides of ${this.a}, ${this.b}, and ${this.c}` // this can also we rewritten as: below 
+    //     );
+    // }
+    display(){
+        return 'Right ' + super.display();
+    }
+}
