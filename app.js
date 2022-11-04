@@ -530,12 +530,21 @@
 function Triangle(a,b){
     this.a = a; 
     this.b = b; 
-    this.getArea = function(){
-        return this.a * this.b / 2; 
-    };
-    this.getHypotenuse = function (){
-        return Math.sqrt(this.a**2 + this.b**2);
-    }
+    // this.getArea = function(){
+    //     return this.a * this.b / 2; 
+    // };
+    // this.getHypotenuse = function (){
+    //     return Math.sqrt(this.a**2 + this.b**2);
+    // }
+}
+
+Triangle.prototype.getArea = function(){
+    return this.a * this.b / 2; 
+};
+
+Triangle.prototype.getHypotenuse = function(){
+    return Math.sqrt(this.a**2 + this.b**2);
 }
 
 const tri1 = new Triangle(3,4);
+const tri2 = new Triangle(9,12);
