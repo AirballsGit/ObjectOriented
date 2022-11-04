@@ -524,3 +524,5 @@ class SuperRightTriangle extends SuperTriangle{  // acts as the child constructo
         return 'Right ' + super.display();
     }
 }
+
+//*****************GIT BRANCH practice to practice DONT CHANGE THIS FILE !!***************** */
