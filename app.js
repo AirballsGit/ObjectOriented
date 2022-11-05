@@ -527,24 +527,127 @@
 
 //**********************PRACTICE********************** */
 
-function Triangle(a,b){
-    this.a = a; 
-    this.b = b; 
-    // this.getArea = function(){
-    //     return this.a * this.b / 2; 
-    // };
-    // this.getHypotenuse = function (){
-    //     return Math.sqrt(this.a**2 + this.b**2);
-    // }
+// function Triangle(a,b){
+//     this.a = a; 
+//     this.b = b; 
+//     // this.getArea = function(){
+//     //     return this.a * this.b / 2; 
+//     // };
+//     // this.getHypotenuse = function (){
+//     //     return Math.sqrt(this.a**2 + this.b**2);
+//     // }
+// }
+
+// Triangle.prototype.getArea = function(){
+//     return this.a * this.b / 2; 
+// };
+
+// Triangle.prototype.getHypotenuse = function(){
+//     return Math.sqrt(this.a**2 + this.b**2);
+// }
+
+// const tri1 = new Triangle(3,4);
+// const tri2 = new Triangle(9,12);
+
+
+class Triangle {
+    constructor(a,b,c){
+        for(let side of [a,b,c]){
+            if(!Number.isFinite(side) || side <= 0){
+                throw new Error('SIDES MUST BE POSITIVE NUMBERS!'); // remember to not return a value
+        }
+    }                                                           // from your constructor !!
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    greet(){
+        console.log('HELLO FROM TRIANGLE!')
+    }
+    display(){
+        return `Triangle with the sides of ${this.a}, ${this.b} and ${this.c}`;
+    }
+    getArea(){
+        const {a,b,c} = this; 
+        const s = (a + b + c) / 2; 
+        return Math.sqrt(s * (s-a) * (s-b) * (s-c));
+    }
+    isBig(){
+        return this.getArea() > 50;
+    }
 }
 
-Triangle.prototype.getArea = function(){
-    return this.a * this.b / 2; 
-};
+// const tri1 = new Triangle(3,4,5);
+// const tri2 = new Triangle(5,9,10);
+// const tri3 = new Triangle(30,40,50);
 
-Triangle.prototype.getHypotenuse = function(){
-    return Math.sqrt(this.a**2 + this.b**2);
+//COMMON THINGS TO DO IN THE CONSTRUCTOR: 
+// VALIDATE THINGS: VALID DATA, ASSIGN PROPERTIES: IF/THROW NEW ERROR
+
+// Number.isFinite = returns if a number and only a number, not a string, boolean etc 
+
+//if you call super as a function this calls the constructor of the original class
+//if you call super. some method it will call the method from the super class 'triangle in this ex'
+class RightTriangle extends Triangle { //extends just 
+    constructor(a,b,c){
+    if(a * a + b * b !== c * c ){
+        throw new Error("Invalid C Side for right triangle");
+    }                                                           // from your constructor !!
+    super(a,b,c); // call the constructor of the 'super closs' whatever were extending
+    this.hypot = c; // also common when extending class to add on properties !  
+    }                           // must call super() before referencing 'this' !!!
+    isRightTriangle(){
+        return true; 
+    }
+    display(){
+        return 'Right ' + super.display(); //using supers display but tweeking it with Right infront
+    }
 }
 
-const tri1 = new Triangle(3,4);
-const tri2 = new Triangle(9,12);
+class Vehicle {
+    constructor(make,model,year){
+        this.make = make;
+        this.model = model;
+        this.year = year; 
+    }
+    honk(){
+        return `Beep`;
+    }
+    toString(){
+        return `The vehicle is a ${this.make} ${this.model} from ${this.year}`;
+    }
+}
+
+class Car extends Vehicle {
+    constructor(make,model,year){
+        super(make,model,year);
+    this.numWheels = 4; 
+    }
+}
+
+class Motorcycle extends Vehicle {
+    constructor(make,model,year){
+        super(make,model,year);
+    this.numWheels = 2; 
+    }
+    revEngine(){
+        return `VROOM!!!`;
+    }
+}
+
+class Garage {
+    constructor(capacity){
+    this.vehicles = [];
+    this.capacity = capacity;
+    }
+    add(newVehicle){
+        if(!(newVehicle instanceof Vehicle)){
+            return `Only Vehicles are allowed in here!`;
+        }
+        if(this.vehicles.length >= this.capacity){
+            return `Sorry We're at Capacity.`;
+        }
+        this.vehicles.push(newVehicle);
+        return `Vehicle Added!`;
+    }
+}
