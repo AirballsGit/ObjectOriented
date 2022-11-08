@@ -525,4 +525,4 @@ class SuperRightTriangle extends SuperTriangle{  // acts as the child constructo
     }
 }
 
-//*****************GIT BRANCH practice to practice DONT CHANGE THIS FILE !!***************** */
+//******************GIT BRANCH practice to practice DONT CHANGE THIS FILE !!***************** */
