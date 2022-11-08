@@ -651,3 +651,63 @@ class Garage {
         return `Vehicle Added!`;
     }
 }
+
+const cat = {
+    name: 'Blue',
+    breed: 'Scottish Fold',
+    dance: function(dance){
+        console.log('THIS IS:', this);
+        console.log(`Meow, I am a ${this.breed} and I like to ${dance}`);
+    },
+    play: function(...toys){
+        console.log(`${this.name} plays with ${toys}`)
+    }
+}
+
+const blueDance = cat.dance;
+const playToys = cat.play;
+
+
+
+const dog = {
+    breed: 'English Bulldog',
+    name: "Bodhi"
+};
+
+
+blueDance.call(dog,'disco');
+// const myDog = {
+//     firstName:"Bodhi",
+//     breed: "English Bulldog",
+//     dance(dance){
+//         console.log( `My name is ${this.firstName} and I like to ${dance}!`)
+//     }
+// }
+
+// const quilaDance = myDog.dance; 
+// quilaDance.call(myDog,"disco");
+
+function printThis(){
+    console.log(`This is ${this}`)
+}
+
+// rolldice, function for numx to call func tax calc bind 
+
+
+const rolldice = function (){
+    const roll = Math.floor(Math.random() * 6) + 1; 
+    console.log(`You Rolled: ${roll}`);
+}
+
+function doXTimes (numTimes, func){
+    for(let i = 0; i < numTimes; i ++){
+        func();
+    }
+}
+
+const salesTax = function (taxRate, price){
+    return price + price * taxRate;
+}
+
+const caSalesTax = salesTax.bind(null, 0.0725);
+const txSalesTax = salesTax.bind(null,0.0625);
